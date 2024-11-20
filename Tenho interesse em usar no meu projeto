@@ -1,0 +1,103 @@
+Código em java e em xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+
+
+    <DatePicker
+        android:id="@+id/data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+    <TimePicker
+        android:id="@+id/hora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+</LinearLayout>
+
+
+--> java 
+
+
+package com.example.timepicker;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.os.Bundle;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+
+public class MainActivity extends AppCompatActivity implements
+        DatePicker.OnDateChangedListener , TimePicker.OnTimeChangedListener   {
+
+
+    TimePicker hora ;
+    DatePicker data;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        //Vincular as variavel com os componentes
+        hora = findViewById( R.id.hora ) ;
+        data = findViewById( R.id.data ) ;
+
+
+        //Configurar o listener para os componentes
+        hora.setOnTimeChangedListener( this );
+        data.init(
+                data.getYear()  ,
+                data.getMonth() ,
+                data.getDayOfMonth(),
+                this ) ;
+    }
+
+
+    @Override
+    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        String texto = String.format(
+                "Data selecionada: %02d/%02d/%04d",
+                dayOfMonth, (monthOfYear+1) ,
+                year ) ;
+        mostrarMensagem( texto );
+    }
+
+
+    @Override
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+        String texto = String.format(
+                "Hora selecionada: %02d:%02d",
+                hourOfDay,
+                minute ) ;
+        mostrarMensagem( texto );
+    }
+
+
+    public void mostrarMensagem(String mensagem) {
+        Toast.makeText( this , mensagem , Toast.LENGTH_LONG).show();
+    }
+}
+
+
